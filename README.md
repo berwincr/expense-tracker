@@ -1,114 +1,141 @@
-# Ledger — Full-Stack Expense Tracker
+Ledger – Full-Stack Expense Tracker
 
-A complete MERN-stack expense tracker: JWT authentication, a dashboard with
-live totals, full transaction CRUD with search/filtering, and category +
-monthly reports with charts.
+A modern full-stack expense tracking web application built with the MERN Stack. Ledger enables users to securely manage their finances with JWT-based authentication, transaction management, interactive analytics, and responsive dashboards.
 
-```
+Live Demo
+
+Frontend: https://expense-tracker-nine-rho-67.vercel.app
+
+Backend API: https://expense-tracker-backend-3umu.onrender.com/api
+
+Features
+Authentication
+Secure user registration and login
+JWT-based authentication
+Password hashing with bcrypt
+Protected API routes
+Persistent user sessions
+Dashboard
+Current balance overview
+Total income and expenses
+Monthly spending summary
+Recent transactions
+Six-month income vs expense trend chart
+Transaction Management
+Add income and expense records
+Edit existing transactions
+Delete transactions
+Search transactions
+Filter by:
+Category
+Type
+Date range
+Pagination support
+Reports & Analytics
+Monthly income vs expense bar chart
+Category-wise expense doughnut chart
+Expense distribution
+Financial summaries
+Responsive UI
+Mobile-friendly interface
+Responsive sidebar
+Clean Ledger-inspired design
+Interactive charts using Chart.js
+Tech Stack
+Frontend
+React
+Vite
+Tailwind CSS
+Axios
+React Router
+Chart.js
+Backend
+Node.js
+Express.js
+MongoDB Atlas
+Mongoose
+JWT Authentication
+bcrypt
+Express Validator
+Deployment
+Vercel (Frontend)
+Render (Backend)
+MongoDB Atlas (Database)
+Project Structure
 expense-tracker/
-├── backend/     Node.js + Express + MongoDB API (JWT auth, bcrypt)
-└── frontend/    React + Vite + Tailwind CSS + Chart.js
-```
-
-## Features
-
-- **Auth** — register, login, logout, JWT-protected routes, bcrypt password hashing
-- **Dashboard** — total balance, total income, total expenses, this month's spending, a 6‑month income/expense trend chart, recent activity
-- **Transactions** — add / edit / delete income & expense entries, search by description or category, filter by category / type / date range, pagination
-- **Categories** — Food, Transport, Shopping, Entertainment, Bills, Education, Health, Salary, Others
-- **Reports** — monthly income vs. expense bar chart, category breakdown doughnut chart + progress bars, recent transactions
-- **UI** — responsive (mobile sidebar collapses to a top bar), custom "ledger" visual theme, cards, tables, and charts
-
-## 1. Prerequisites
-
-- Node.js 18+
-- A MongoDB database — either [MongoDB Community Server](https://www.mongodb.com/try/download/community) running locally, or a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster
-
-## 2. Backend setup
-
-```bash
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── ...
+│
+├── backend/
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   ├── config/
+│   └── ...
+│
+└── README.md
+API Endpoints
+Method	Endpoint	Description	Protected
+POST	/api/auth/register	Register User	❌
+POST	/api/auth/login	Login	❌
+GET	/api/auth/me	Current User	✅
+POST	/api/auth/logout	Logout	✅
+GET	/api/transactions	Get Transactions	✅
+POST	/api/transactions	Add Transaction	✅
+PUT	/api/transactions/:id	Update Transaction	✅
+DELETE	/api/transactions/:id	Delete Transaction	✅
+GET	/api/dashboard/summary	Dashboard Summary	✅
+GET	/api/dashboard/monthly-summary	Monthly Report	✅
+GET	/api/dashboard/category-summary	Category Report	✅
+Local Installation
+Clone
+git clone https://github.com/berwincr/expense-tracker.git
+cd expense-tracker
+Backend
 cd backend
 npm install
-cp .env.example .env
-```
 
-Edit `.env`:
+Create a .env file
 
-```
 PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/expense-tracker   # or your Atlas connection string
-JWT_SECRET=replace_this_with_a_long_random_secret
+MONGO_URI=YOUR_MONGODB_URI
+JWT_SECRET=YOUR_SECRET
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173
-```
 
-Run it:
+Run
 
-```bash
-npm run dev      # nodemon, auto-restarts on change
-# or
-npm start
-```
-
-The API runs at `http://localhost:5000/api`. Check `GET /api/health` to confirm it's up.
-
-## 3. Frontend setup
-
-In a new terminal:
-
-```bash
+npm run dev
+Frontend
 cd frontend
 npm install
-cp .env.example .env
-```
 
-`.env`:
+Create
 
-```
 VITE_API_URL=http://localhost:5000/api
-```
 
-Run it:
+Run
 
-```bash
 npm run dev
-```
+Security
+Passwords hashed using bcrypt
+JWT authentication
+Protected API routes
+Request validation with Express Validator
+Server-side schema validation using Mongoose
+Future Enhancements
+Budget planning
+Export reports as PDF/Excel
+Recurring transactions
+Dark mode
+Email verification
+Multi-currency support
+AI-powered spending insights
+Author
 
-Open `http://localhost:5173`, register an account, and start adding transactions.
+Berwin CR
 
-## 4. Production build
-
-```bash
-cd frontend
-npm run build      # outputs static files to frontend/dist
-```
-
-Serve `frontend/dist` with any static host (Vercel, Netlify, Nginx, etc.), and
-deploy `backend/` to any Node host (Render, Railway, Fly.io, etc.) with your
-production `MONGO_URI` and a strong `JWT_SECRET` set as environment variables.
-
-## API overview
-
-| Method | Route                               | Description                          | Auth |
-|--------|--------------------------------------|---------------------------------------|------|
-| POST   | `/api/auth/register`                | Create an account                     | –    |
-| POST   | `/api/auth/login`                   | Log in, returns a JWT                 | –    |
-| GET    | `/api/auth/me`                      | Get the current user                  | ✔    |
-| POST   | `/api/auth/logout`                  | Logout (client discards token)        | ✔    |
-| GET    | `/api/transactions`                 | List (search, category, type, date range, pagination) | ✔ |
-| POST   | `/api/transactions`                 | Create a transaction                  | ✔    |
-| GET    | `/api/transactions/:id`             | Get one transaction                   | ✔    |
-| PUT    | `/api/transactions/:id`             | Update a transaction                  | ✔    |
-| DELETE | `/api/transactions/:id`             | Delete a transaction                  | ✔    |
-| GET    | `/api/dashboard/summary`            | Total balance / income / expenses / monthly spending | ✔ |
-| GET    | `/api/dashboard/monthly-summary`    | Income vs. expense per month          | ✔    |
-| GET    | `/api/dashboard/category-summary`   | Totals grouped by category            | ✔    |
-| GET    | `/api/dashboard/recent`             | Most recent transactions              | ✔    |
-
-All protected routes expect `Authorization: Bearer <token>`.
-
-## Notes
-
-- Passwords are hashed with bcrypt (10 salt rounds) and never returned by the API.
-- JWTs are stored in `localStorage` on the client and attached via an Axios request interceptor; a `401` response automatically logs the user out.
-- Validation runs both client-side (form checks) and server-side (`express-validator` + Mongoose schema validation).
+GitHub: https://github.com/berwincr
